@@ -127,7 +127,9 @@ class FlutterSubscreenPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
     override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
         flutterPluginBindingCache = null
         mainChannel.setMethodCallHandler(null)
-        subChannel.setMethodCallHandler(null)
+        if (this::subChannel.isInitialized) {
+            subChannel.setMethodCallHandler(null)
+        }
         try {
             tripPlugins?.forEach {
                 it.onDetachedFromEngine(binding)
